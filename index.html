@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Puzzle Game</title>
+</head>
+<body>
+  <h1>Welcome to the Puzzle Game</h1>
+  <form id="player-form">
+    <input type="text" id="player-name" placeholder="Enter your name" required />
+    <button type="submit">Start Game</button>
+  </form>
+
+  <div id="game" style="display:none;">
+    <p>Hello, <span id="name-display"></span>! Your score is: <span id="score">0</span></p>
+    <button onclick="increaseScore()">Solve Puzzle</button>
+    <button onclick="submitScore()">Submit Score</button>
+  </div>
+
+  <script type="module">
+    // Firebase config
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js';
+    import { getFirestore, doc, setDoc } from 'https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js';
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyCb-K15oWqXe4OhkHaamfGEGOsjKrADb3c",
+        authDomain: "puzzlegame-b1e5b.firebaseapp.com",
+        projectId: "puzzlegame-b1e5b",
+        storageBucket: "puzzlegame-b1e5b.firebasestorage.app",
+        messagingSenderId: "498776276471",
+        appId: "1:498776276471:web:901ffb5eb29cf5596942f2"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    let playerName = '';
+    let score = 0;
+
+    const form = document.getElementById('player-form');
+    const game = document.getElementById('game');
+    const nameDisplay = document.getElementById('name-display');
+    const scoreDisplay = document.getElementById('score');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      playerName = document.getElementById('player-name').value;
+      nameDisplay.textContent = playerName;
+      form.style.display = 'none';
+      game.style.display = 'block';
+    });
+
+    window.increaseScore = () => {
+      score++;
+      scoreDisplay.textContent = score;
+    };
+
+    window.submitScore = async () => {
+      await setDoc(doc(db, "players", playerName), { name: playerName, score });
+      alert('Score submitted!');
+    };
+  </script>
+</body>
+</html>
