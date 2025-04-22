@@ -1,2 +1,2 @@
 # PuzzleGame
-Simple puzzle game hosted for a team excersize.
+Simple puzzle game hosted for a team exercise.
