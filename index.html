@@ -57,11 +57,11 @@
         const bottomNumbers = labelNumbers.slice(0, size);
         const sideNumbers = labelNumbers.slice(size, size*2);
 
-        const operations = ['add', 'subtract', 'multiply'];
+        const operations = ['add', 'sub', 'mult'];
         const opClasses = {
             add: 'op-add',
             subtract: 'op-sub',
-            multiply: 'op-mul'
+            multiply: 'op-mult'
         };
 
         const puzzle = [];
@@ -85,7 +85,7 @@
                     cell.classList.add('cell');
 
                     if (row === size && col === 0) {
-                    // Top-left corner blank
+                    // Bottom Right corner blank
                     } else if (row === size) {
                     // Top row = column headers
                     cell.textContent = bottomNumbers[col - 1];
@@ -110,9 +110,9 @@
                 // Avoid duplicates
                 if (puzzle.find(p => p.x === x && p.y === y)) {
                     i--; continue;
-                
-                console.log("Hello");
-            }
+                }
+
+            console.log("x: "+x+" y: "+y);
 
             puzzle.push({ x, y, op });
             const index = ((y + 1) * (size + 1)) + (x + 1);
@@ -126,16 +126,16 @@
             let breakdown = [];
 
             for (const { x, y, op } of puzzle) {
-            const a = sideNumbers[y];
-            const b = bottomNumbers[x];
-            let result = 0;
+                const a = sideNumbers[y];
+                const b = bottomNumbers[x];
+                let result = 0;
 
-            if (op === 'add') result = a + b;
-            else if (op === 'subtract') result = a - b;
-            else if (op === 'multiply') result = a * b;
+                if (op === 'add') result = a + b;
+                else if (op === 'sub') result = a - b;
+                else if (op === 'mult') result = a * b;
 
-            breakdown.push(`${a} ${op} ${b} = ${result}`);
-            total = total === null ? result : total + result; // just sum all results
+                breakdown.push(`${a} ${op} ${b} = ${result}`);
+                total = total === null ? result : total + result; // just sum all results
             }
 
             document.getElementById('puzzle-answer').textContent = total + " (" + breakdown.join(", ") + ")";
